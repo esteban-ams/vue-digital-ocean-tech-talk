@@ -1,17 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    {{ message }}
+    <List :pokemons="pokemons" />
+
   </div>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import List from './components/List.vue';
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    List
+  },
+  mounted() {
+    this.getPockemon();
+  },
+  data() {
+    return {
+      message: "Hola Mundo",
+      pokemons: ['charmander', 'charmilion']
+    }
+  },
+  methods: {
+    async getPockemon(){
+      const res = await fetch("https://pokeapi.co/api/v2/pokemon?offset=15&limit=15");
+      const data = await res.json();
+      this.pokemons = data.results;
+    }
   }
 }
 </script>
